@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+venv/
+.env/
+
+# Distribution / packaging
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Logs and temporary files
+*.log
+*.tmp
+*.~*
+.DS_Store
+
+# Model files
+paleoveg/model.pkl.bz2  # Exclude the large model binary
+
+# Test coverage reports
+.coverage
+*.cover
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# System files
+Thumbs.db
+
