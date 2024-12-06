@@ -10,9 +10,9 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "scikit-learn==0.23.2",
-        "numpy==1.21.5",
-        "pandas",
+        "scikit-learn>=1.5.2",
+        "numpy>=2.1.3",
+        "pandas>=2.2.3",
         "joblib",
         "matplotlib",
         "cartopy",
@@ -21,6 +21,6 @@ setup(
     package_data={
         "paleoveg": ["model.pkl.bz2"],  # Include the model file
     },
-    python_requires=">=3.6",
+    python_requires=">=3.7",
 )
 
