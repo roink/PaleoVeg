@@ -16,6 +16,7 @@ setup(
         "joblib",
         "matplotlib",
         "cartopy",
+	"requests"
     ],
     package_data={
         "paleoveg": ["model.pkl.bz2"],  # Include the model file
