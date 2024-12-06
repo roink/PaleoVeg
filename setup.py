@@ -10,8 +10,8 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "scikit-learn>=1.0",
-        "numpy>=1.21",
+        "scikit-learn==0.23.2",
+        "numpy==1.21.5",
         "pandas",
         "joblib",
         "matplotlib",
