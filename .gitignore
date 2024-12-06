@@ -21,7 +21,7 @@ build/
 .DS_Store
 
 # Model files
-paleoveg/model.pkl.bz2  # Exclude the large model binary
+paleoveg/model.pkl.bz2
 
 # Test coverage reports
 .coverage

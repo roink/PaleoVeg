@@ -40,7 +40,7 @@ PaleoVeg predicts the following vegetation/biome types:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/PaleoVeg.git
+   git clone https://github.com/roink/PaleoVeg.git
    cd PaleoVeg
    ```
 
