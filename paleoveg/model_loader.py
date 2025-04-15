@@ -8,7 +8,7 @@ def download_model():
     """Download the model file from GitHub Releases if it does not exist locally."""
     model_path = os.path.join(os.path.dirname(__file__), "model.pkl.bz2")
     if not os.path.exists(model_path):
-        url = "https://github.com/roink/PaleoVeg/releases/download/v0.1.0/model.pkl.bz2"
+        url = "https://github.com/roink/PaleoVeg/releases/download/v0.1.2/model.pkl.bz2"
         print(f"Downloading model from {url}...")
         response = requests.get(url, stream=True)
         if response.status_code == 200:
