@@ -1,3 +1,5 @@
+
+[![DOI](https://zenodo.org/badge/899445420.svg)](https://doi.org/10.5281/zenodo.15222519)
 ---
 
 # **PaleoVeg**

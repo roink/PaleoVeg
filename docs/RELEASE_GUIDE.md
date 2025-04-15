@@ -81,7 +81,7 @@ This document outlines the steps to create a new release for the PaleoVeg projec
 1. **Build the Distribution Files:**
    - Build the source distribution (`.tar.gz`) and the wheel (`.whl`):
      ```bash
-     python -m build
+     python3 setup.py sdist bdist_wheel
      ```
 
 2. **Verify the Build:**
