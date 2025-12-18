@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software in your work, please cite it as below."
+title: "PaleoVeg"
+version: "v0.1.2"
+doi: "10.5281/zenodo.15222520"
+authors:
+  - family-names: "Schlüter"
+    given-names: "Philipp"
+    orcid: "https://orcid.org/0009-0001-7947-5222"  
+repository-code: "https://github.com/roink/PaleoVeg"
+abstract: "PaleoVeg is a Python package for paleovegetation reconstruction that predicts vegetation types based on bioclimatic variables and allows modeling of past environmental conditions."
+keywords:
+  - paleovegetation
+  - vegetation reconstruction
+  - bioclimatic prediction
+  - Python
+license: "MIT"
+date-released: "2025-04-15"
