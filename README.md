@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/899445420.svg)](https://doi.org/10.5281/zenodo.15222519)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15222519.svg)](https://doi.org/10.5281/zenodo.15222519)
 [![GitHub Org](https://img.shields.io/badge/GitHub-HESCOR-blue?logo=github&logoColor=white)](https://github.com/HESCOR)
 
 ---
