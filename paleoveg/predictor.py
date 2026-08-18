@@ -1,16 +1,10 @@
 import numpy as np
 import pandas as pd
+from numbers import Real
 from .model_loader import load_model
+from .input import REQUIRED_COLUMNS, normalize_bioclim_columns
+from .co2 import co2_at_time
 import warnings
-
-# Load the model once when the module is imported
-_model = load_model()
-
-# Define the required column names
-REQUIRED_COLUMNS = [
-    "bio1", "bio4", "bio5", "bio6", "bio7", "bio8", "bio9", "bio10",
-    "bio11", "bio12", "bio13", "bio14", "bio15", "bio16", "bio17", "bio18", "bio19"
-]
 
 # Define class names in the order used by the model
 CLASS_NAMES = [
@@ -19,6 +13,10 @@ CLASS_NAMES = [
     'Mixed Forest', 'Woodland', 'Wooded Grassland', 'Closed Shrubland', 
     'Open Shrubland', 'Grassland', 'Bare Ground'
 ]
+
+# Class codes stored in the released v0.1.2 classifier. Their order defines the
+# mapping to CLASS_NAMES and is checked before labeling probability columns.
+MODEL_CLASS_CODES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]
 
 # Define the C3/C4 competition factors
 COMPETITION_FACTORS = {
@@ -34,6 +32,45 @@ COMPETITION_FACTORS = {
     'Grassland': 1.69,
     'Bare Ground': 1.15,
 }
+
+MODERN_CO2_PPM = 310.0
+LEGACY_CORRECTION_CO2_PPM = 185.0
+
+
+def _resolve_co2_ppm(c3_c4_correction, co2_ppm, age_ka_bp=None):
+    """Resolve legacy correction settings to an explicit CO2 concentration."""
+    if co2_ppm is not None and age_ka_bp is not None:
+        raise ValueError("co2_ppm and age_ka_bp are mutually exclusive.")
+    if age_ka_bp is not None and not c3_c4_correction:
+        raise ValueError("age_ka_bp can only be provided when c3_c4_correction=True.")
+    if co2_ppm is not None and not c3_c4_correction:
+        raise ValueError("co2_ppm can only be provided when c3_c4_correction=True.")
+    if age_ka_bp is not None:
+        return co2_at_time(age_ka_bp)
+    if co2_ppm is None:
+        return LEGACY_CORRECTION_CO2_PPM if c3_c4_correction else MODERN_CO2_PPM
+    if isinstance(co2_ppm, (bool, np.bool_)) or not isinstance(co2_ppm, Real):
+        raise ValueError("co2_ppm must be a finite numeric concentration in ppm.")
+    resolved = float(co2_ppm)
+    if not np.isfinite(resolved):
+        raise ValueError("co2_ppm must be a finite numeric concentration in ppm.")
+    return resolved
+
+
+def _competition_factors_for_co2(class_names, c3_c4_correction, co2_ppm, age_ka_bp=None):
+    """Return resolved CO2 and class factors for interpolation or extrapolation."""
+    resolved = _resolve_co2_ppm(c3_c4_correction, co2_ppm, age_ka_bp)
+    if not c3_c4_correction:
+        return resolved, np.ones(len(class_names), dtype=float)
+    legacy_factors = np.array([COMPETITION_FACTORS[name] for name in class_names], dtype=float)
+    scale = (MODERN_CO2_PPM - resolved) / (MODERN_CO2_PPM - LEGACY_CORRECTION_CO2_PPM)
+    factors = 1.0 + scale * (legacy_factors - 1.0)
+    if np.any(factors <= 0):
+        raise ValueError(
+            f"co2_ppm={resolved:g} produces a zero or negative C3/C4 competition factor; "
+            "choose a concentration closer to the 185–310 ppm calibration interval."
+        )
+    return resolved, factors
 
 # Min and max values for bioclimatic variables in the training set
 BIOCLIM_RANGES = {
@@ -109,7 +146,40 @@ def validate_input(input_df):
     if missing_columns:
         raise ValueError(f"Missing required columns: {missing_columns}")
 
-def predict(input_df, dominant="exclude", c3_c4_correction=False):
+    non_numeric = [
+        column for column in REQUIRED_COLUMNS
+        if not pd.api.types.is_numeric_dtype(input_df[column])
+    ]
+    if non_numeric:
+        raise ValueError(f"Bioclimatic columns must be numeric: {non_numeric}")
+
+    values = input_df[REQUIRED_COLUMNS].to_numpy(dtype=float)
+    if not np.isfinite(values).all():
+        raise ValueError("Bioclimatic columns contain missing or non-finite values.")
+
+
+def _class_names_for_model(model):
+    """Resolve probability columns without assuming an unchecked class order."""
+    model_classes = list(model.classes_)
+    if model_classes == MODEL_CLASS_CODES:
+        return CLASS_NAMES
+    if len(model_classes) == len(CLASS_NAMES) and set(model_classes) == set(CLASS_NAMES):
+        return model_classes
+    raise ValueError(
+        "The model classes do not match PaleoVeg's expected vegetation classes: "
+        f"{model_classes}"
+    )
+
+def predict(
+    input_df,
+    dominant="exclude",
+    c3_c4_correction=False,
+    model=None,
+    normalize_columns=True,
+    aliases=None,
+    co2_ppm=None,
+    age_ka_bp=None,
+):
     """
     Predict vegetation based on bioclimatic features and return probabilities or dominant class.
 
@@ -120,11 +190,18 @@ def predict(input_df, dominant="exclude", c3_c4_correction=False):
             - "include": Include probabilities and a column with the dominant class.
             - "only": Return only the dominant class.
         c3_c4_correction (bool): If True, apply C3/C4 competition correction.
+        co2_ppm (float, optional): Atmospheric CO2 concentration. Requires
+            c3_c4_correction=True; defaults to 185 ppm when correction is enabled.
+        age_ka_bp (float, optional): Geological age in thousands of years before
+            1950. Mutually exclusive with co2_ppm and resolved from the bundled
+            IPCC AR6 CO2 observations.
 
     Returns:
         pd.DataFrame: DataFrame containing probabilities and/or dominant vegetation class.
     """
-    # Validate input (assuming validate_input has already been defined)
+    if normalize_columns:
+        input_df, _ = normalize_bioclim_columns(input_df, aliases=aliases)
+
     validate_input(input_df)
 
     # Use only the required columns for prediction
@@ -134,14 +211,19 @@ def predict(input_df, dominant="exclude", c3_c4_correction=False):
     validate_ranges(input_df)
 
     # Predict probabilities
-    probabilities = _model.predict_proba(input_df)
+    active_model = model if model is not None else load_model()
+    probabilities = active_model.predict_proba(input_df)
 
     # Create a dataframe for the probabilities
-    prob_df = pd.DataFrame(probabilities, columns=CLASS_NAMES, index=input_df.index)
+    class_names = _class_names_for_model(active_model)
+    prob_df = pd.DataFrame(probabilities, columns=class_names, index=input_df.index)
 
-    # Apply C3/C4 competition correction if enabled
+    # Resolve the concentration even when correction is disabled so conflicting
+    # arguments fail consistently before results are returned.
+    _, correction_factors = _competition_factors_for_co2(
+        class_names, c3_c4_correction, co2_ppm, age_ka_bp
+    )
     if c3_c4_correction:
-        correction_factors = np.array([COMPETITION_FACTORS[class_name] for class_name in CLASS_NAMES])
         prob_df = prob_df.multiply(correction_factors, axis=1)
         prob_df = prob_df.div(prob_df.sum(axis=1), axis=0)  # Normalize to sum to 1
 
@@ -159,7 +241,10 @@ def predict(input_df, dominant="exclude", c3_c4_correction=False):
         raise ValueError("Invalid value for 'dominant'. Must be 'exclude', 'include', or 'only'.")
         
         
-def predict_map(data, dominant="exclude", c3_c4_correction=False):
+def predict_map(
+    data, dominant="exclude", c3_c4_correction=False, model=None,
+    co2_ppm=None, age_ka_bp=None,
+):
     """
     Predict vegetation for a 3D map input (m x n x 17) and return probabilities or dominant types.
 
@@ -169,6 +254,10 @@ def predict_map(data, dominant="exclude", c3_c4_correction=False):
             - "exclude": Return probabilities for each class (m x n x 11).
             - "only": Return the dominant type as integers (m x n x 1).
         c3_c4_correction (bool): If True, apply C3/C4 competition correction.
+        co2_ppm (float, optional): Atmospheric CO2 concentration. Requires
+            c3_c4_correction=True; defaults to 185 ppm when correction is enabled.
+        age_ka_bp (float, optional): Geological age in thousands of years before
+            1950. Mutually exclusive with co2_ppm.
 
     Returns:
         numpy.ndarray: m x n x 11 (probabilities) or m x n x 1 (dominant type).
@@ -178,6 +267,11 @@ def predict_map(data, dominant="exclude", c3_c4_correction=False):
     
     if data.ndim != 3 or data.shape[2] != 17:
         raise ValueError("Input data must have shape (m x n x 17).")
+
+    if not np.issubdtype(data.dtype, np.number):
+        raise ValueError("Input data must contain numeric values.")
+    if not np.isfinite(data).all():
+        raise ValueError("Input data contains missing or non-finite values.")
         
     validate_map_ranges(data)
 
@@ -186,11 +280,14 @@ def predict_map(data, dominant="exclude", c3_c4_correction=False):
     flat_data = data.reshape(-1, 17)
 
     # Predict probabilities
-    probabilities = _model.predict_proba(flat_data)
+    active_model = model if model is not None else load_model()
+    probabilities = active_model.predict_proba(flat_data)
+    class_names = _class_names_for_model(active_model)
 
-    # Apply C3/C4 correction if enabled
+    _, correction_factors = _competition_factors_for_co2(
+        class_names, c3_c4_correction, co2_ppm, age_ka_bp
+    )
     if c3_c4_correction:
-        correction_factors = np.array([COMPETITION_FACTORS[class_name] for class_name in CLASS_NAMES])
         probabilities *= correction_factors
         probabilities /= probabilities.sum(axis=1, keepdims=True)  # Normalize to sum to 1
 
@@ -206,4 +303,3 @@ def predict_map(data, dominant="exclude", c3_c4_correction=False):
         return dominant_classes
     else:
         raise ValueError("Invalid value for 'dominant'. Must be 'exclude' or 'only'.")
-

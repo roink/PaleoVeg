@@ -1,1 +1,3 @@
-exclude paleoveg/model.pkl.bz2
+include LICENSE
+include CITATION.cff
+recursive-include paleoveg/data/co2 *.csv *.md
