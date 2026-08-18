@@ -1,0 +1,43 @@
+name: Deploy browser application
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Add the released classifier to the static site
+        run: >-
+          curl --fail --location --retry 3
+          --output docs/assets/model.pkl.bz2
+          https://github.com/roink/PaleoVeg/releases/download/v0.1.2/model.pkl.bz2
+      - name: Verify classifier checksum
+        run: >-
+          echo "7ad80d07f91c2c0c51b1cad9f423056d24daf07ea70b7ab04ba4502d38d1fab6  docs/assets/model.pkl.bz2"
+          | sha256sum --check
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
