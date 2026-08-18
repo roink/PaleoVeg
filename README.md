@@ -7,17 +7,6 @@
 
 PaleoVeg is a Python package for predicting vegetation types based on bioclimatic variables. It is designed for paleovegetation reconstruction, allowing users to model vegetation based on past climate data or other environmental predictors.
 
-## **Citation and reuse**
-
-If you use PaleoVeg in research, please cite:
-
-> Schlüter, P. (2025). *PaleoVeg* (v0.1.2) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222520
-
-Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff).
-PaleoVeg can be reused under the terms of the [MIT License](LICENSE).
-
----
-
 ## **Features**
 - Predict vegetation types for single or multiple locations using bioclimatic variables.
 - Apply a CO₂ concentration-dependent C3/C4 competition correction.
@@ -66,11 +55,11 @@ PaleoVeg predicts the following vegetation/biome types:
 
 [Open the PaleoVeg web application](https://roink.github.io/PaleoVeg/)
 
-The web application lets researchers run PaleoVeg without installing Python.
+The web application lets you run PaleoVeg without installing Python.
 Climate data are processed locally in the browser and are not uploaded to a
 server.
 
-It accepts CSV, TSV, and NetCDF data containing either PaleoVeg BIOCLIM
+It accepts CSV, TSV, and NetCDF data containing either BIOCLIM
 variables or 12-month temperature and precipitation normals. Variable matches,
 climate units, and the choice between supplied and derived BIOCLIM variables
 are shown for review before a prediction runs.
@@ -255,6 +244,17 @@ and attribution details.
 | Wooded Grassland               | 1.62              |
 | Grassland                      | 1.69              |
 | Bare Ground                    | 1.15              |
+
+---
+
+## **Citation and reuse**
+
+If you use PaleoVeg in research, please cite:
+
+> Schlüter, P. (2025). *PaleoVeg* (v0.2.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222520
+
+Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff).
+PaleoVeg can be reused under the terms of the [MIT License](LICENSE).
 
 ---
 

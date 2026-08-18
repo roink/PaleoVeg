@@ -20,8 +20,15 @@ the model used by the package and web application.
 
 ## Release checklist
 
-1. Update the package version in `setup.py` and any release notes or citation
-   information that need a new version.
+1. Synchronize the release metadata and browser wheel. This updates the package
+   version, `CITATION.cff`, README citation, and web-app footer together:
+
+   ```bash
+   python scripts/prepare_release.py 0.2.1 --build-browser-wheel
+   python scripts/prepare_release.py 0.2.1 --check
+   ```
+
+   Review and commit the resulting changes before creating the tag.
 2. Commit the release changes to `main` and wait for the normal checks to pass.
 3. Create and push the matching tag:
 
