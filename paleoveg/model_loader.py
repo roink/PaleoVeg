@@ -10,8 +10,9 @@ import hashlib
 import io
 import os
 import pickle
+from contextlib import contextmanager
 from pathlib import Path
-from typing import BinaryIO, Optional, Union
+from typing import BinaryIO, Callable, Iterator, Optional, Union
 
 from sklearn.ensemble import RandomForestClassifier
 
@@ -25,6 +26,7 @@ MODEL_URL = (
 )
 
 ModelSource = Union[str, os.PathLike, bytes, bytearray, memoryview, BinaryIO]
+ProgressCallback = Callable[[float], None]
 _cached_model = None
 
 
@@ -72,20 +74,74 @@ def _file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _open_compressed_source(source: ModelSource):
+class _ProgressReader:
+    """Report compressed-source progress while ``BZ2File`` consumes it."""
+
+    def __init__(self, raw: BinaryIO, total_bytes: int, callback: ProgressCallback):
+        self._raw = raw
+        self._total_bytes = total_bytes
+        self._callback = callback
+        self._last_reported = -1.0
+
+    def _report_progress(self) -> None:
+        fraction = min(self._raw.tell() / self._total_bytes, 1.0) if self._total_bytes else 1.0
+        if fraction < 1.0 and fraction - self._last_reported < 0.02:
+            return
+        self._last_reported = fraction
+        try:
+            self._callback(fraction)
+        except Exception:
+            # Progress reporting must never make model loading fail.
+            pass
+
+    def read(self, size: int = -1) -> bytes:
+        data = self._raw.read(size)
+        self._report_progress()
+        return data
+
+    def readinto(self, buffer) -> int:
+        count = self._raw.readinto(buffer)
+        self._report_progress()
+        return count
+
+    def __getattr__(self, name):
+        return getattr(self._raw, name)
+
+
+@contextmanager
+def _open_compressed_source(
+    source: ModelSource, progress_callback: Optional[ProgressCallback] = None
+) -> Iterator[bz2.BZ2File]:
     if isinstance(source, (bytes, bytearray, memoryview)):
-        return bz2.BZ2File(io.BytesIO(bytes(source)), "rb")
+        with bz2.BZ2File(io.BytesIO(bytes(source)), "rb") as compressed:
+            yield compressed
+        return
     if hasattr(source, "read"):
-        return bz2.BZ2File(source, "rb")
-    return bz2.BZ2File(Path(source), "rb")
+        with bz2.BZ2File(source, "rb") as compressed:
+            yield compressed
+        return
+    path = Path(source)
+    with path.open("rb") as raw:
+        wrapped = (
+            _ProgressReader(raw, path.stat().st_size, progress_callback)
+            if progress_callback is not None
+            else raw
+        )
+        with bz2.BZ2File(wrapped, "rb") as compressed:
+            yield compressed
 
 
-def load_model(source: Optional[ModelSource] = None):
+def load_model(
+    source: Optional[ModelSource] = None,
+    progress_callback: Optional[ProgressCallback] = None,
+):
     """Load and validate the PaleoVeg classifier.
 
     Args:
         source: A path, compressed model bytes, or binary file object. When it
             is omitted, the released model is downloaded and cached locally.
+        progress_callback: Receives the fraction of compressed model bytes read
+            when loading from a path. It is intended for browser progress UI.
 
     Models loaded from an explicit source are not placed in the module cache;
     this makes tests and browser sessions deterministic.
@@ -96,7 +152,7 @@ def load_model(source: Optional[ModelSource] = None):
         return _cached_model
 
     resolved_source = download_model() if source is None else source
-    with _open_compressed_source(resolved_source) as compressed_file:
+    with _open_compressed_source(resolved_source, progress_callback) as compressed_file:
         model = pickle.load(compressed_file)
 
     if not isinstance(model, RandomForestClassifier):
