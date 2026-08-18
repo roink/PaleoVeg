@@ -1,0 +1,80 @@
+name: Publish Python package
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing version tag to publish (for example, v0.2.0)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  build:
+    name: Test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build and test dependencies
+        run: python -m pip install --upgrade pip build twine pytest
+      - name: Verify the tag matches the package version
+        run: |
+          package_version=$(python -c 'import re; print(re.search(r"version=[\"\\\x27]([^\"\\\x27]+)", open("setup.py", encoding="utf-8").read()).group(1))')
+          test "v${package_version}" = "${RELEASE_TAG}"
+      - name: Run tests
+        run: |
+          python -m pip install .
+          pytest -q
+      - name: Build distributions
+        run: python -m build
+      - name: Validate distributions
+        run: twine check dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/
+          if-no-files-found: error
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/PaleoVeg
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  create-github-release:
+    name: Create GitHub release
+    needs: publish-to-pypi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/
+      - name: Create release with Python distributions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$RELEASE_TAG" dist/* --title "PaleoVeg $RELEASE_TAG" --generate-notes
