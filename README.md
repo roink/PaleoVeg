@@ -7,11 +7,21 @@
 
 PaleoVeg is a Python package for predicting vegetation types based on bioclimatic variables. It is designed for paleovegetation reconstruction, allowing users to model vegetation based on past climate data or other environmental predictors.
 
+## **Citation and reuse**
+
+If you use PaleoVeg in research, please cite:
+
+> Schlüter, P. (2025). *PaleoVeg* (v0.1.2) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222520
+
+Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff).
+PaleoVeg can be reused under the terms of the [MIT License](LICENSE).
+
 ---
 
 ## **Features**
 - Predict vegetation types for single or multiple locations using bioclimatic variables.
-- Apply optional C3/C4 competition corrections for higher CO2 levels.
+- Apply a CO₂ concentration-dependent C3/C4 competition correction.
+- Run CSV/TSV predictions locally in a browser through the static GitHub Pages app.
 - Flexible output options:
   - Probabilities for each vegetation type.
   - Dominant vegetation type.
@@ -51,6 +61,24 @@ PaleoVeg predicts the following vegetation/biome types:
    ```bash
    pip install .
    ```
+
+## **Browser application**
+
+[Open the PaleoVeg web application](https://roink.github.io/PaleoVeg/)
+
+The web application lets researchers run PaleoVeg without installing Python.
+Climate data are processed locally in the browser and are not uploaded to a
+server.
+
+It accepts CSV, TSV, and NetCDF data containing either PaleoVeg BIOCLIM
+variables or 12-month temperature and precipitation normals. Variable matches,
+climate units, and the choice between supplied and derived BIOCLIM variables
+are shown for review before a prediction runs.
+
+For spatial NetCDF data, the app provides a map preview and can export NetCDF,
+CSV, NumPy, PNG, and reproducibility metadata. It supports dominant vegetation,
+class probabilities, and C3/C4 correction using a chosen CO₂ concentration or
+a geological-age lookup.
 
 ---
 
@@ -103,8 +131,21 @@ probabilities = predict(df, dominant="exclude", c3_c4_correction=False)
 # Predict dominant vegetation type
 dominant_class = predict(df, dominant="only", c3_c4_correction=True)
 
-# Include probabilities and dominant type
-result = predict(df, dominant="include", c3_c4_correction=True)
+# Specify another atmospheric CO2 concentration in ppm
+result = predict(
+    df,
+    dominant="include",
+    c3_c4_correction=True,
+    co2_ppm=220,
+)
+
+# Derive CO2 from geological age in ka BP (before 1950)
+result_at_20ka = predict(
+    df,
+    dominant="include",
+    c3_c4_correction=True,
+    age_ka_bp=20,
+)
 ```
 
 ---
@@ -136,7 +177,7 @@ dominant_map = predict_map(data, dominant="only", c3_c4_correction=True)
 
 ## **Functions**
 
-### **1. `predict(input_df, dominant="exclude", c3_c4_correction=False)`**
+### **1. `predict(input_df, dominant="exclude", c3_c4_correction=False, ..., co2_ppm=None, age_ka_bp=None)`**
 Predict vegetation types for tabular data.
 
 #### **Parameters**:
@@ -145,14 +186,16 @@ Predict vegetation types for tabular data.
   - `"exclude"`: Returns probabilities for each vegetation type.
   - `"include"`: Returns probabilities and the dominant type.
   - `"only"`: Returns only the dominant type.
-- `c3_c4_correction` (bool): If `True`, applies C3/C4 competition correction.
+- `c3_c4_correction` (bool): If `True`, applies the C3/C4 competition correction. Omitting `co2_ppm` preserves the legacy 185 ppm result. If `False`, predictions are uncorrected and represent the 310 ppm baseline.
+- `co2_ppm` (float, optional): Atmospheric CO₂ concentration used for the correction. It may only be supplied when `c3_c4_correction=True`.
+- `age_ka_bp` (float, optional): Geological age in thousands of years before 1950. PaleoVeg linearly interpolates atmospheric CO₂ from the bundled IPCC AR6 observations. It is mutually exclusive with `co2_ppm` and requires `c3_c4_correction=True`.
 
 #### **Returns**:
 - Pandas DataFrame: Probabilities and/or dominant type based on `dominant`.
 
 ---
 
-### **2. `predict_map(data, dominant="exclude", c3_c4_correction=False)`**
+### **2. `predict_map(data, dominant="exclude", c3_c4_correction=False, model=None, co2_ppm=None, age_ka_bp=None)`**
 Predict vegetation types for 3D map-like data.
 
 #### **Parameters**:
@@ -160,7 +203,9 @@ Predict vegetation types for 3D map-like data.
 - `dominant` (str): Specifies the output format.
   - `"exclude"`: Returns probabilities `(m x n x 11)`.
   - `"only"`: Returns the dominant type `(m x n x 1)`.
-- `c3_c4_correction` (bool): If `True`, applies C3/C4 competition correction.
+- `c3_c4_correction` (bool): If `True`, applies the C3/C4 competition correction, defaulting to the legacy 185 ppm result.
+- `co2_ppm` (float, optional): Atmospheric CO₂ concentration. Requires `c3_c4_correction=True`.
+- `age_ka_bp` (float, optional): Geological age in ka BP relative to 1950. Mutually exclusive with `co2_ppm`.
 
 #### **Returns**:
 - Numpy array: Probabilities or dominant type based on `dominant`.
@@ -168,7 +213,34 @@ Predict vegetation types for 3D map-like data.
 ---
 
 ## **C3/C4 Competition Factors**
-When `c3_c4_correction=True`, the following factors are applied to adjust probabilities for higher CO2 levels:
+The factors below are the published correction at 185 ppm. At the uncorrected modern baseline of 310 ppm every factor is 1. For another concentration `c`, PaleoVeg calculates each class factor as:
+
+```text
+factor(c) = 1 + ((310 - c) / (310 - 185)) × (factor(185) - 1)
+```
+
+Values between 185 and 310 ppm are interpolated and values outside that interval are linearly extrapolated. PaleoVeg rejects concentrations that would make any class factor zero or negative. Corrected probabilities are renormalized to sum to one.
+
+### CO₂ lookup by geological age
+
+```python
+from paleoveg import co2_at_time
+
+co2_ppm = co2_at_time(20)  # approximately 194.04 ppm
+```
+
+The bundled lookup preserves all 1,894 irregular CO₂ observations from the
+IPCC AR6 Figure 2.4a dataset. Source ages in kyr before 2000 are converted to
+ka BP by subtracting 0.05. Duplicate ages are averaged only when constructing
+the interpolation knots. PaleoVeg does not extrapolate beyond the dataset's
+−0.069 to 805.669 ka BP range.
+
+Data source: Ahn, J. (2023), *Chapter 2 of the Working Group I Contribution to
+the IPCC Sixth Assessment Report – data for Figure 2.4 (v20221219)*, NERC EDS
+Centre for Environmental Data Analysis,
+[doi:10.5285/60eeb3cce51a457cb5ee1c577a0c8674](https://doi.org/10.5285/60eeb3cce51a457cb5ee1c577a0c8674),
+licensed under CC BY 4.0. See `paleoveg/data/co2/README.md` for transformation
+and attribution details.
 
 | Vegetation Type                | Competition Factor |
 |--------------------------------|--------------------|
@@ -195,4 +267,3 @@ This project is licensed under the MIT License.
 Contributions are welcome! Please submit a pull request or open an issue if you have suggestions or find bugs.
 
 ---
-
