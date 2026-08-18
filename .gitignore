@@ -13,6 +13,8 @@ venv/
 dist/
 build/
 *.whl
+!docs/assets/
+!docs/assets/PaleoVeg-0.2.0-py3-none-any.whl
 
 # Logs and temporary files
 *.log
@@ -22,6 +24,7 @@ build/
 
 # Model files
 paleoveg/model.pkl.bz2
+docs/assets/model.pkl.bz2
 
 # Test coverage reports
 .coverage
@@ -33,4 +36,3 @@ htmlcov/
 
 # System files
 Thumbs.db
-

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Run PaleoVeg vegetation predictions locally in your browser.">
+  <title>PaleoVeg — browser predictor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="PaleoVeg home">
+      PaleoVeg
+    </a>
+    <a class="repo-link" href="https://github.com/roink/PaleoVeg">Source code ↗</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>PaleoVeg browser predictor</h1>
+      <p class="lede">Upload bioclimatic data, review variable assignments, and calculate vegetation predictions locally in your browser.</p>
+    </section>
+
+    <section class="workspace" aria-label="Prediction workflow">
+      <ol class="steps" aria-label="Workflow steps">
+        <li id="step-data" class="active"><button type="button" data-step="data"><span>1</span> Data</button></li>
+        <li id="step-configure"><button type="button" data-step="configure" disabled><span>2</span> Configure</button></li>
+        <li id="step-results"><button type="button" data-step="results" disabled><span>3</span> Results</button></li>
+      </ol>
+
+      <div id="upload-panel" class="panel upload-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="step-label">Step 01</p>
+            <h2>Upload climate data</h2>
+          </div>
+          <span class="format-pill">CSV / TSV / NetCDF</span>
+        </div>
+        <div id="privacy-note" class="privacy-note">
+          <span aria-hidden="true">●</span>
+          Your climate data is processed locally and is never uploaded to a server.
+        </div>
+
+        <label class="drop-zone" id="drop-zone" for="file-input">
+          <input id="file-input" type="file" accept=".csv,.tsv,.txt,.nc,text/csv,text/tab-separated-values,application/x-netcdf,application/netcdf">
+          <span class="upload-icon" aria-hidden="true">↑</span>
+          <strong>Drop your climate table here</strong>
+          <span>or choose a file from your computer</span>
+          <small>Supply BIOCLIM variables, or a 12-month climate normal containing mean/minimum/maximum temperature and precipitation.</small>
+        </label>
+
+        <div id="file-summary" class="file-summary hidden" aria-live="polite">
+          <div>
+            <strong id="file-name"></strong>
+            <span id="file-details"></span>
+          </div>
+          <button id="replace-file" class="text-button" type="button">Replace</button>
+        </div>
+
+        <div id="upload-progress" class="progress hidden" aria-live="polite">
+          <div class="progress-track"><span id="upload-progress-bar"></span></div>
+          <p id="upload-progress-message">Reading climate table…</p>
+        </div>
+
+        <div id="mapping-section" class="mapping-section hidden">
+          <fieldset id="source-choice" class="source-choice hidden">
+            <legend>Climate representation</legend>
+            <p>This file contains supplied BIOCLIM variables and monthly climate normals. Choose which complete set PaleoVeg should use.</p>
+            <label><input type="radio" name="input-source" value="bioclim"> Use supplied BIOCLIM variables</label>
+            <label><input type="radio" name="input-source" value="monthly"> Derive BIOCLIM variables from monthly climate normals</label>
+          </fieldset>
+          <div id="detection-note" class="detection-note hidden"></div>
+          <fieldset id="unit-review" class="unit-review hidden">
+            <legend>Units used for derivation</legend>
+            <label>Temperature <select id="temperature-unit"><option value="">Choose unit</option><option value="celsius">degrees Celsius</option><option value="kelvin">Kelvin</option></select> <small id="temperature-unit-note"></small></label>
+            <label>Precipitation <select id="precipitation-unit"><option value="mm-month">monthly total in millimetres</option></select></label>
+          </fieldset>
+          <div class="mapping-title">
+            <div>
+              <h3>Variable matching</h3>
+              <p id="mapping-summary"></p>
+            </div>
+            <span id="mapping-badge" class="status-badge"></span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Input variable</th><th id="mapping-target-heading">PaleoVeg variable</th><th>Status</th></tr></thead>
+              <tbody id="mapping-body"></tbody>
+            </table>
+          </div>
+          <div id="mapping-feedback" class="mapping-feedback" aria-live="polite"></div>
+          <button id="continue-button" class="secondary-button hidden" type="button">Continue to configuration <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+
+      <div id="config-panel" class="panel config-panel hidden">
+        <div class="panel-heading">
+          <div>
+            <p class="step-label">Step 02</p>
+            <h2>Configure prediction</h2>
+          </div>
+        </div>
+
+        <fieldset>
+          <legend>Output</legend>
+          <label class="radio-card"><input type="radio" name="output" value="both" checked><span><strong>Both</strong><small>Dominant class and probabilities</small></span></label>
+          <label class="radio-card"><input type="radio" name="output" value="dominant"><span><strong>Dominant vegetation</strong><small>One class per observation</small></span></label>
+          <label class="radio-card"><input type="radio" name="output" value="probabilities"><span><strong>Class probabilities</strong><small>Fraction for all 11 classes</small></span></label>
+        </fieldset>
+
+        <div class="correction-row">
+          <div>
+            <strong>C3/C4 competition correction</strong>
+            <p>Off uses the uncorrected modern baseline of 310 ppm.</p>
+          </div>
+          <label class="switch"><input id="correction" type="checkbox"><span></span><b class="sr-only">Toggle correction</b></label>
+        </div>
+        <div id="co2-control" class="co2-control hidden">
+          <fieldset class="co2-source-choice">
+            <legend>CO₂ source</legend>
+            <label><input type="radio" name="co2-source" value="manual" checked> Enter concentration</label>
+            <label><input type="radio" name="co2-source" value="time"> Look up from geological age</label>
+          </fieldset>
+          <div id="co2-manual-control">
+            <label for="co2-ppm"><strong>Atmospheric CO₂ concentration</strong></label>
+            <div class="number-with-unit"><input id="co2-ppm" type="number" value="185" step="any" inputmode="decimal"><span>ppm</span></div>
+            <p>At 185 ppm, PaleoVeg uses the published correction factors. Values are linearly interpolated to the uncorrected 310 ppm baseline and extrapolated outside that interval.</p>
+          </div>
+          <div id="co2-time-control" class="hidden">
+            <label for="age-ka-bp"><strong>Geological age</strong></label>
+            <div class="number-with-unit"><input id="age-ka-bp" type="number" value="20" step="any" inputmode="decimal"><span>ka BP</span></div>
+            <p>Age is in thousands of years before 1950. PaleoVeg converts it to the source time axis and linearly interpolates the surrounding observations without extrapolation.</p>
+            <div id="co2-lookup-details" class="lookup-details" aria-live="polite"></div>
+            <p class="data-attribution">CO₂ data: Ahn (2023), IPCC AR6 Figure 2.4, <a href="https://doi.org/10.5285/60eeb3cce51a457cb5ee1c577a0c8674" target="_blank" rel="noreferrer">doi:10.5285/60eeb3cce51a457cb5ee1c577a0c8674 ↗</a>, CC BY 4.0.</p>
+          </div>
+          <p id="co2-feedback" class="field-feedback" aria-live="polite"></p>
+        </div>
+
+        <button id="back-to-data" class="secondary-button" type="button">Back to data <span aria-hidden="true">←</span></button>
+
+        <button id="run-button" class="primary-button" type="button" disabled>
+          <span>Run PaleoVeg locally</span><span aria-hidden="true">→</span>
+        </button>
+        <div id="progress" class="progress hidden" aria-live="polite">
+          <div class="progress-track"><span id="progress-bar"></span></div>
+          <p id="progress-message">Preparing browser Python…</p>
+        </div>
+      </div>
+
+      <div id="results-panel" class="panel results-panel hidden">
+        <div class="panel-heading">
+          <div>
+            <p class="step-label">Step 03</p>
+            <h2>Preview & download</h2>
+          </div>
+          <span class="status-badge success">Complete</span>
+        </div>
+
+        <div class="result-navigation">
+          <button id="results-back-configure" class="text-button" type="button">← Back to configuration</button>
+          <button id="results-back-data" class="text-button" type="button">← Back to data</button>
+        </div>
+
+        <div class="result-stats" id="result-stats"></div>
+        <div id="map-preview">
+          <div class="preview-controls">
+            <label class="class-picker">Map layer
+              <select id="preview-picker" aria-label="Map preview layer"></select>
+            </label>
+          </div>
+          <div class="map-frame">
+            <canvas id="map-canvas" width="1100" height="520" aria-label="Vegetation preview"></canvas>
+            <p id="map-empty" class="map-empty hidden">No usable latitude and longitude coordinates were found.</p>
+          </div>
+          <div id="legend" class="legend"></div>
+        </div>
+
+        <h3>Downloads</h3>
+        <div id="downloads" class="downloads"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="citation-block">
+      <strong>Cite PaleoVeg</strong>
+      <span id="citation-text">Schlüter, P. (2025). PaleoVeg (v0.1.2) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222520</span>
+      <nav aria-label="Citation and reuse links">
+        <button id="copy-bibtex" type="button">Copy BibTeX</button>
+        <a href="https://doi.org/10.5281/zenodo.15222520" target="_blank" rel="noreferrer">DOI ↗</a>
+        <a href="https://github.com/roink/PaleoVeg/blob/main/CITATION.cff" target="_blank" rel="noreferrer">CITATION.cff ↗</a>
+      </nav>
+    </div>
+    <div class="reuse-block">
+      <strong>Reuse</strong>
+      <span>Open-source research software under the <a href="https://github.com/roink/PaleoVeg/blob/main/LICENSE" target="_blank" rel="noreferrer">MIT License ↗</a></span>
+      <nav aria-label="Source and reuse links">
+        <a href="https://github.com/roink/PaleoVeg" target="_blank" rel="noreferrer">GitHub repository ↗</a>
+      </nav>
+    </div>
+  </footer>
+  <script type="module" src="app.js?v=runtime-cache-4"></script>
+</body>
+</html>
