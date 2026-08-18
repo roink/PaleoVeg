@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WHEEL_TEMPLATE = "PaleoVeg-{version}-py3-none-any.whl"
+WHEEL_TEMPLATE = "paleoveg-{version}-py3-none-any.whl"
 
 
 def normalized_version(value: str) -> str:

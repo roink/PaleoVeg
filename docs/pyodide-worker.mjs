@@ -1,7 +1,7 @@
 import { loadPyodide } from "https://cdn.jsdelivr.net/pyodide/v314.0.2/full/pyodide.mjs";
 import "./cache-manifest.js";
 
-const WHEEL_NAME = "PaleoVeg-0.2.0-py3-none-any.whl";
+const WHEEL_NAME = "paleoveg-0.2.0-py3-none-any.whl";
 const MODEL_ASSET_URL = new URL("assets/model.pkl.bz2", self.location.href).href;
 const MODEL_PATH = "/tmp/paleoveg-model.pkl.bz2";
 const REQUIRED_COLUMNS = [
@@ -45,7 +45,7 @@ async function getPyodide() {
       const pyodide = await loadPyodide();
       status("Loading scientific Python packages…", 16);
       await pyodide.loadPackage(["micropip", "numpy", "pandas", "scikit-learn"]);
-      const wheelUrl = new URL(`assets/${WHEEL_NAME}?v=runtime-cache-4`, self.location.href).href;
+      const wheelUrl = new URL(`assets/${WHEEL_NAME}?v=runtime-cache-5`, self.location.href).href;
       status("Installing the local PaleoVeg browser package…", 25);
       const { response, persisted } = await cachedAsset(wheelUrl);
       if (!response.ok) throw new Error(`PaleoVeg package download failed (${response.status} ${response.statusText}).`);
@@ -93,12 +93,23 @@ async function ensureModel(pyodide) {
       }
       await writeResponseToFile(response, pyodide);
       await persisted;
-      status("Decompressing and loading the classifier…", 72);
+      status("Decompressing classifier… 0%", 70);
       pyodide.globals.set("paleoveg_model_path", MODEL_PATH);
+      pyodide.globals.set("report_model_load_progress", fraction => {
+        if (fraction >= 0.995) {
+          status("Restoring random-forest classifier…", 78);
+        } else {
+          status(`Decompressing classifier… ${Math.round(fraction * 100)}%`, 70 + fraction * 8);
+        }
+      });
       await pyodide.runPythonAsync(`
 from paleoveg import load_model
-_paleoveg_model = load_model(paleoveg_model_path)
+_paleoveg_model = load_model(
+    paleoveg_model_path,
+    progress_callback=report_model_load_progress,
+)
 `);
+      status("Classifier loaded. Preparing prediction…", 79);
     })().catch(error => {
       modelPromise = undefined;
       throw error;

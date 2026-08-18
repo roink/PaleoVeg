@@ -62,7 +62,7 @@ const elements = {
 
 const stepButtons = [...document.querySelectorAll("[data-step]")];
 
-const worker = new Worker("pyodide-worker.mjs?v=runtime-cache-4", { type: "module" });
+const worker = new Worker("pyodide-worker.mjs?v=runtime-cache-5", { type: "module" });
 const pending = new Map();
 let requestId = 0;
 let selectedFile = null;
