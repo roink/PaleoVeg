@@ -11,7 +11,7 @@ from .bioclim import bioclimatic_variable_dict, derive_bioclimatic_variables, gu
 from .co2 import co2_at_time
 from .predictor import CLASS_NAMES, predict, predict_map
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 __all__ = [
     "CLASS_NAMES",

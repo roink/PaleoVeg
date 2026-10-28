@@ -11,7 +11,7 @@ PaleoVeg is a Python package for predicting vegetation types based on bioclimati
 
 If you use PaleoVeg in research, please cite:
 
-> Schlüter, P. (2025). *PaleoVeg* (v0.1.2) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222520
+> Schlüter, P. (2026). *PaleoVeg* (v0.1.2) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222519
 
 Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff).
 PaleoVeg can be reused under the terms of the [MIT License](LICENSE).

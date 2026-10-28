@@ -10,6 +10,6 @@ self.PALEOVEG_PRECACHE = [
   "app.js?v=runtime-cache-4",
   "pyodide-worker.mjs?v=runtime-cache-4",
   "cache-manifest.js",
-  "assets/PaleoVeg-0.2.0-py3-none-any.whl",
+  "assets/paleoveg-0.2.1-py3-none-any.whl",
   "assets/co2_ipcc_ar6.csv",
 ];

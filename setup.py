@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="PaleoVeg",
-    version="0.2.0",
+    version="0.2.1",
     description="Predict paleovegetation from bioclimatic variables.",
     long_description=long_description,
     long_description_content_type="text/markdown",  # Specify Markdown format

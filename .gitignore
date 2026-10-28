@@ -14,7 +14,7 @@ dist/
 build/
 *.whl
 !docs/assets/
-!docs/assets/PaleoVeg-0.2.0-py3-none-any.whl
+!docs/assets/paleoveg-0.2.1-py3-none-any.whl
 
 # Logs and temporary files
 *.log

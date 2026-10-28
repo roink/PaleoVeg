@@ -1,7 +1,7 @@
 import { loadPyodide } from "https://cdn.jsdelivr.net/pyodide/v314.0.2/full/pyodide.mjs";
 import "./cache-manifest.js";
 
-const WHEEL_NAME = "PaleoVeg-0.2.0-py3-none-any.whl";
+const WHEEL_NAME = "paleoveg-0.2.1-py3-none-any.whl";
 const MODEL_ASSET_URL = new URL("assets/model.pkl.bz2", self.location.href).href;
 const MODEL_PATH = "/tmp/paleoveg-model.pkl.bz2";
 const REQUIRED_COLUMNS = [
@@ -742,7 +742,7 @@ function buildNetcdfResult(dominantGrid, probabilityGrid, payload) {
     netcdfAttribute("title", "char", "PaleoVeg vegetation prediction"),
     netcdfAttribute("source_input_file", "char", currentInput.name),
     netcdfAttribute("source_input_sha256", "char", payload.input_sha256 || "not available"),
-    netcdfAttribute("paleoveg_version", "char", "0.2.0"),
+    netcdfAttribute("paleoveg_version", "char", "0.2.1"),
     netcdfAttribute("paleoveg_model_version", "char", "v0.1.2"),
     netcdfAttribute("paleoveg_c3_c4_correction", "char", String(Boolean(payload.correction))),
     netcdfAttribute("paleoveg_co2_ppm", "double", predictionConfiguration.co2_ppm),
@@ -850,7 +850,7 @@ json.dumps({
   }
   const areaStats = gridAreaStatistics(latitudes, longitudes, validIndices.subarray(0, validRow), dominant, probabilities);
   const configuration = {
-    paleoveg_version: "0.2.0",
+    paleoveg_version: "0.2.1",
     model_version: "v0.1.2",
     c3_c4_correction: Boolean(payload.correction),
     co2_ppm: co2Resolution.co2_ppm,

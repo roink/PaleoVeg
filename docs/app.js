@@ -818,14 +818,14 @@ elements.ageKaBp.addEventListener("input", updateCo2Control);
 document.querySelectorAll('input[name="co2-source"]').forEach(input => input.addEventListener("change", updateCo2Control));
 document.querySelector("#copy-bibtex").addEventListener("click", async event => {
   const button = event.currentTarget;
-  const bibtex = `@software{schlueter_2025_paleoveg,
+  const bibtex = `@software{schlueter_2026_paleoveg,
   author    = {Schlüter, Philipp},
   title     = {PaleoVeg},
   version   = {0.1.2},
-  year      = {2025},
+  year      = {2026},
   publisher = {Zenodo},
-  doi       = {10.5281/zenodo.15222520},
-  url       = {https://doi.org/10.5281/zenodo.15222520}
+  doi       = {10.5281/zenodo.15222519},
+  url       = {https://doi.org/10.5281/zenodo.15222519}
 }`;
   await navigator.clipboard.writeText(bibtex);
   button.textContent = "Copied";

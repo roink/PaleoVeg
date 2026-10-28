@@ -77,4 +77,4 @@ jobs:
       - name: Create release with Python distributions
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$RELEASE_TAG" dist/* --title "PaleoVeg $RELEASE_TAG" --generate-notes
+        run: gh release create "$RELEASE_TAG" dist/* --repo "$GITHUB_REPOSITORY" --draft --title "PaleoVeg $RELEASE_TAG" --generate-notes
