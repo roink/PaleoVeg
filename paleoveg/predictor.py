@@ -14,7 +14,7 @@ CLASS_NAMES = [
     'Open Shrubland', 'Grassland', 'Bare Ground'
 ]
 
-# Class codes stored in the released v0.1.2 classifier. Their order defines the
+# Class codes stored in the released classifier. Their order defines the
 # mapping to CLASS_NAMES and is checked before labeling probability columns.
 MODEL_CLASS_CODES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]
 

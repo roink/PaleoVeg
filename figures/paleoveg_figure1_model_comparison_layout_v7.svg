@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 78 1248 276" width="100%" height="100%" style="font-family: Arial, Helvetica, sans-serif;">
+<defs>
+  <!-- Arrow heads extend beyond the line endpoint, so the shaft terminates invisibly inside the filled head. -->
+  <marker id="arrow" viewBox="0 0 10 7" markerWidth="8.5" markerHeight="6" refX="7.6" refY="3.5" orient="auto" markerUnits="strokeWidth">
+    <path d="M0.5,0.6 L9.7,3.5 L0.5,6.4 Z" fill="#333"/>
+  </marker>
+  <marker id="arrowGray" viewBox="0 0 10 7" markerWidth="8.5" markerHeight="6" refX="7.6" refY="3.5" orient="auto" markerUnits="strokeWidth">
+    <path d="M0.5,0.6 L9.7,3.5 L0.5,6.4 Z" fill="#777"/>
+  </marker>
+  <linearGradient id="inputGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e8f5e9"/><stop offset="100%" stop-color="#c8e6c9"/></linearGradient>
+  <linearGradient id="probGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#fff3e0"/><stop offset="100%" stop-color="#ffe0b2"/></linearGradient>
+  <linearGradient id="rfGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fafafa"/><stop offset="100%" stop-color="#f1f3f4"/></linearGradient>
+</defs>
+<rect width="1320" height="360" fill="#fff"/>
+<g transform="translate(0,-35)">
+<rect id="paleoveg-frame" x="435" y="118" width="845" height="268" rx="12" fill="#fcfcfc" stroke="#9e9e9e" stroke-width="1.6" stroke-dasharray="6,6"/>
+<rect x="754" y="107" width="206" height="22" fill="#fff"/>
+<text x="857" y="124" text-anchor="middle" font-size="13.5" font-weight="700" fill="#666">PaleoVeg framework</text>
+<line x1="857" y1="142" x2="857" y2="372" stroke="#e0e0e0" stroke-dasharray="3,5"/>
+<text x="215" y="151" text-anchor="middle" font-size="15.5" font-weight="700" fill="#616161">(a) Shao et al. model</text>
+<text x="215" y="171" text-anchor="middle" font-size="12.3" fill="#777">published predecessor</text>
+<line x1="127" y1="180" x2="303" y2="180" stroke="#616161" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+<text x="645" y="151" text-anchor="middle" font-size="15.5" font-weight="700" fill="#e67e22">(b) PaleoVeg bridge</text>
+<text x="645" y="171" text-anchor="middle" font-size="12.3" fill="#777">matched two-predictor comparator</text>
+<line x1="557" y1="180" x2="733" y2="180" stroke="#e67e22" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+<text x="1068" y="151" text-anchor="middle" font-size="15.5" font-weight="700" fill="#1e88e5">(c) PaleoVeg 1.0</text>
+<text x="1068" y="171" text-anchor="middle" font-size="12.3" fill="#777">canonical 17-predictor configuration</text>
+<line x1="980" y1="180" x2="1156" y2="180" stroke="#1e88e5" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+<g><rect x="66" y="236" width="26" height="48" rx="4" fill="url(#inputGrad)" stroke="#43a047" stroke-width="2"/></g>
+<line x1="66" y1="260.00" x2="92" y2="260.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<g><rect x="113" y="236" width="26" height="48" rx="4" fill="url(#inputGrad)" stroke="#43a047" stroke-width="2"/></g>
+<line x1="113" y1="260.00" x2="139" y2="260.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<text x="79" y="306" text-anchor="middle" font-size="12" font-weight="700" fill="#444">T</text>
+<text x="126" y="306" text-anchor="middle" font-size="12" font-weight="700" fill="#444">P</text>
+<text x="102" y="325" text-anchor="middle" font-size="11.2" fill="#666">annual means</text>
+<line x1="145" y1="260" x2="173" y2="260" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+<g><rect x="181" y="219" width="82" height="82" rx="4" fill="#fff" stroke="#777" stroke-width="1.5"/></g>
+<rect x="181.00" y="219.00" width="13.77" height="13.77" fill="#fff8e1" stroke="#fff" stroke-width=".8"/>
+<rect x="194.67" y="219.00" width="13.77" height="13.77" fill="#ffecb3" stroke="#fff" stroke-width=".8"/>
+<rect x="208.33" y="219.00" width="13.77" height="13.77" fill="#ffe082" stroke="#fff" stroke-width=".8"/>
+<rect x="222.00" y="219.00" width="13.77" height="13.77" fill="#ffd54f" stroke="#fff" stroke-width=".8"/>
+<rect x="235.67" y="219.00" width="13.77" height="13.77" fill="#ffca28" stroke="#fff" stroke-width=".8"/>
+<rect x="249.33" y="219.00" width="13.77" height="13.77" fill="#f6b51c" stroke="#fff" stroke-width=".8"/>
+<rect x="181.00" y="232.67" width="13.77" height="13.77" fill="#fff3e0" stroke="#fff" stroke-width=".8"/>
+<rect x="194.67" y="232.67" width="13.77" height="13.77" fill="#ffe0b2" stroke="#fff" stroke-width=".8"/>
+<rect x="208.33" y="232.67" width="13.77" height="13.77" fill="#ffcc80" stroke="#fff" stroke-width=".8"/>
+<rect x="222.00" y="232.67" width="13.77" height="13.77" fill="#ffb74d" stroke="#fff" stroke-width=".8"/>
+<rect x="235.67" y="232.67" width="13.77" height="13.77" fill="#ffa726" stroke="#fff" stroke-width=".8"/>
+<rect x="249.33" y="232.67" width="13.77" height="13.77" fill="#fb8c00" stroke="#fff" stroke-width=".8"/>
+<rect x="181.00" y="246.33" width="13.77" height="13.77" fill="#fff3e0" stroke="#fff" stroke-width=".8"/>
+<rect x="194.67" y="246.33" width="13.77" height="13.77" fill="#ffe0b2" stroke="#fff" stroke-width=".8"/>
+<rect x="208.33" y="246.33" width="13.77" height="13.77" fill="#ffcc80" stroke="#fff" stroke-width=".8"/>
+<rect x="222.00" y="246.33" width="13.77" height="13.77" fill="#ffb74d" stroke="#fff" stroke-width=".8"/>
+<rect x="235.67" y="246.33" width="13.77" height="13.77" fill="#fb8c00" stroke="#fff" stroke-width=".8"/>
+<rect x="249.33" y="246.33" width="13.77" height="13.77" fill="#f57c00" stroke="#fff" stroke-width=".8"/>
+<rect x="181.00" y="260.00" width="13.77" height="13.77" fill="#fff8e1" stroke="#fff" stroke-width=".8"/>
+<rect x="194.67" y="260.00" width="13.77" height="13.77" fill="#ffecb3" stroke="#fff" stroke-width=".8"/>
+<rect x="208.33" y="260.00" width="13.77" height="13.77" fill="#ffd180" stroke="#fff" stroke-width=".8"/>
+<rect x="222.00" y="260.00" width="13.77" height="13.77" fill="#ffab40" stroke="#fff" stroke-width=".8"/>
+<rect x="235.67" y="260.00" width="13.77" height="13.77" fill="#ff9800" stroke="#fff" stroke-width=".8"/>
+<rect x="249.33" y="260.00" width="13.77" height="13.77" fill="#ef6c00" stroke="#fff" stroke-width=".8"/>
+<rect x="181.00" y="273.67" width="13.77" height="13.77" fill="#fffde7" stroke="#fff" stroke-width=".8"/>
+<rect x="194.67" y="273.67" width="13.77" height="13.77" fill="#fff59d" stroke="#fff" stroke-width=".8"/>
+<rect x="208.33" y="273.67" width="13.77" height="13.77" fill="#ffe082" stroke="#fff" stroke-width=".8"/>
+<rect x="222.00" y="273.67" width="13.77" height="13.77" fill="#ffc107" stroke="#fff" stroke-width=".8"/>
+<rect x="235.67" y="273.67" width="13.77" height="13.77" fill="#ff9800" stroke="#fff" stroke-width=".8"/>
+<rect x="249.33" y="273.67" width="13.77" height="13.77" fill="#ef6c00" stroke="#fff" stroke-width=".8"/>
+<rect x="181.00" y="287.33" width="13.77" height="13.77" fill="#f9fbe7" stroke="#fff" stroke-width=".8"/>
+<rect x="194.67" y="287.33" width="13.77" height="13.77" fill="#f0f4c3" stroke="#fff" stroke-width=".8"/>
+<rect x="208.33" y="287.33" width="13.77" height="13.77" fill="#dce775" stroke="#fff" stroke-width=".8"/>
+<rect x="222.00" y="287.33" width="13.77" height="13.77" fill="#c0ca33" stroke="#fff" stroke-width=".8"/>
+<rect x="235.67" y="287.33" width="13.77" height="13.77" fill="#afb42b" stroke="#fff" stroke-width=".8"/>
+<rect x="249.33" y="287.33" width="13.77" height="13.77" fill="#827717" stroke="#fff" stroke-width=".8"/>
+<rect x="181" y="219" width="82" height="82" rx="4" fill="none" stroke="#777" stroke-width="1.5"/>
+<text x="222" y="323" text-anchor="middle" font-size="12" font-weight="700" fill="#444">2-D climate bins</text>
+<text x="222" y="340" text-anchor="middle" font-size="10.6" fill="#666">class frequencies</text>
+<line x1="267" y1="260" x2="305" y2="260" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+<g><rect x="312" y="199" width="28" height="122" rx="4" fill="url(#probGrad)" stroke="#fb8c00" stroke-width="2"/></g>
+<line x1="312" y1="210.09" x2="340" y2="210.09" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="221.18" x2="340" y2="221.18" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="232.27" x2="340" y2="232.27" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="243.36" x2="340" y2="243.36" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="254.45" x2="340" y2="254.45" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="265.55" x2="340" y2="265.55" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="276.64" x2="340" y2="276.64" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="287.73" x2="340" y2="287.73" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="298.82" x2="340" y2="298.82" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="312" y1="309.91" x2="340" y2="309.91" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<text x="326" y="343" text-anchor="middle" font-size="12" font-weight="700" font-style="italic" fill="#444">p</text>
+<path d="M322.5 334.5 L326 331.5 L329.5 334.5" fill="none" stroke="#444" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="326" y="360" text-anchor="middle" font-size="11.2" fill="#666">11 classes</text>
+<g id="reimpl-arrow"><path d="M 355 252 C 389 232, 433 232, 467 252" fill="none" stroke="#777" stroke-width="1.6" marker-end="url(#arrowGray)"/></g>
+<rect x="347" y="184" width="128" height="50" fill="#fff"/>
+<g id="reimpl-label">
+  <text x="411" y="196" text-anchor="middle" font-size="11.2" font-weight="700" fill="#666">reimplementation</text>
+  <text x="411" y="210" text-anchor="middle" font-size="10.3" fill="#888">new climate source</text>
+  <text x="411" y="223" text-anchor="middle" font-size="10.3" fill="#888">+ estimator</text>
+</g>
+<g><rect x="494" y="222" width="28" height="82" rx="4" fill="url(#inputGrad)" stroke="#43a047" stroke-width="2"/></g>
+<line x1="494" y1="263.00" x2="522" y2="263.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<text x="508" y="326" text-anchor="middle" font-size="12" font-weight="700" fill="#444">x</text>
+<text x="508" y="345" text-anchor="middle" font-size="11.4" font-style="italic" fill="#1b5e20">BIO1 + BIO12</text>
+<line x1="528" y1="263" x2="563" y2="263" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="rf-box-bridge"><rect x="570" y="215" width="144" height="96" rx="7" fill="url(#rfGrad)" stroke="#e67e22" stroke-width="1.8"/></g>
+<g id="rf-glyph-bridge" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Three separated decision trees; wider spacing prevents visual collisions. -->
+  <g id="rf-tree-bridge-1">
+    <g stroke="#7b8790" stroke-width="1.3" fill="none">
+      <path d="M596 230 L586 243 M596 230 L606 243 M586 243 L581 257 M586 243 L591 257 M606 243 L601 257 M606 243 L611 257"/>
+    </g>
+    <g fill="#fff" stroke="#e67e22" stroke-width="1.2">
+      <circle cx="596" cy="230" r="2.5"/><circle cx="586" cy="243" r="2.1"/><circle cx="606" cy="243" r="2.1"/>
+    </g>
+    <g fill="#f6b26b" stroke="#e67e22" stroke-width="0.85">
+      <rect x="578.5" y="255" width="5" height="5" rx="1"/><rect x="588.5" y="255" width="5" height="5" rx="1"/>
+      <rect x="598.5" y="255" width="5" height="5" rx="1"/><rect x="608.5" y="255" width="5" height="5" rx="1"/>
+    </g>
+  </g>
+  <g id="rf-tree-bridge-2">
+    <g stroke="#7b8790" stroke-width="1.3" fill="none">
+      <path d="M642 226 L630 239 M642 226 L654 239 M630 239 L624 252 M630 239 L636 252 M654 239 L648 252 M654 239 L660 252 M624 252 L621 266 M624 252 L627 266 M648 252 L645 266 M648 252 L651 266"/>
+    </g>
+    <g fill="#fff" stroke="#e67e22" stroke-width="1.2">
+      <circle cx="642" cy="226" r="2.6"/><circle cx="630" cy="239" r="2.1"/><circle cx="654" cy="239" r="2.1"/>
+      <circle cx="624" cy="252" r="1.9"/><circle cx="648" cy="252" r="1.9"/>
+    </g>
+    <g fill="#f6b26b" stroke="#e67e22" stroke-width="0.85">
+      <rect x="618.5" y="264" width="5" height="5" rx="1"/><rect x="624.5" y="264" width="5" height="5" rx="1"/>
+      <rect x="633.5" y="250" width="5" height="5" rx="1"/><rect x="657.5" y="250" width="5" height="5" rx="1"/>
+      <rect x="642.5" y="264" width="5" height="5" rx="1"/><rect x="648.5" y="264" width="5" height="5" rx="1"/>
+    </g>
+  </g>
+  <g id="rf-tree-bridge-3">
+    <g stroke="#7b8790" stroke-width="1.3" fill="none">
+      <path d="M688 230 L678 243 M688 230 L698 243 M678 243 L673 257 M678 243 L683 257 M698 243 L693 257 M698 243 L703 257"/>
+    </g>
+    <g fill="#fff" stroke="#e67e22" stroke-width="1.2">
+      <circle cx="688" cy="230" r="2.5"/><circle cx="678" cy="243" r="2.1"/><circle cx="698" cy="243" r="2.1"/>
+    </g>
+    <g fill="#f6b26b" stroke="#e67e22" stroke-width="0.85">
+      <rect x="670.5" y="255" width="5" height="5" rx="1"/><rect x="680.5" y="255" width="5" height="5" rx="1"/>
+      <rect x="690.5" y="255" width="5" height="5" rx="1"/><rect x="700.5" y="255" width="5" height="5" rx="1"/>
+    </g>
+  </g>
+</g>
+<text x="642.0" y="299" text-anchor="middle" font-size="11.2" font-weight="700" fill="#444">Random Forest</text>
+<line x1="721" y1="263" x2="755" y2="263" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+<g><rect x="762" y="202" width="28" height="122" rx="4" fill="url(#probGrad)" stroke="#fb8c00" stroke-width="2"/></g>
+<line x1="762" y1="213.09" x2="790" y2="213.09" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="224.18" x2="790" y2="224.18" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="235.27" x2="790" y2="235.27" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="246.36" x2="790" y2="246.36" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="257.45" x2="790" y2="257.45" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="268.55" x2="790" y2="268.55" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="279.64" x2="790" y2="279.64" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="290.73" x2="790" y2="290.73" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="301.82" x2="790" y2="301.82" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="762" y1="312.91" x2="790" y2="312.91" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<text x="776" y="346" text-anchor="middle" font-size="12" font-weight="700" font-style="italic" fill="#444">p</text>
+<path d="M772.5 337.5 L776 334.5 L779.5 337.5" fill="none" stroke="#444" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="776" y="363" text-anchor="middle" font-size="11.2" fill="#666">11 classes</text>
+<g><rect x="906" y="195" width="28" height="136" rx="4" fill="url(#inputGrad)" stroke="#43a047" stroke-width="2"/></g>
+<line x1="906" y1="203.00" x2="934" y2="203.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="211.00" x2="934" y2="211.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="219.00" x2="934" y2="219.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="227.00" x2="934" y2="227.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="235.00" x2="934" y2="235.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="243.00" x2="934" y2="243.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="251.00" x2="934" y2="251.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="259.00" x2="934" y2="259.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="267.00" x2="934" y2="267.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="275.00" x2="934" y2="275.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="283.00" x2="934" y2="283.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="291.00" x2="934" y2="291.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="299.00" x2="934" y2="299.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="307.00" x2="934" y2="307.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="315.00" x2="934" y2="315.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<line x1="906" y1="323.00" x2="934" y2="323.00" stroke="#43a047" stroke-width="0.55" opacity="0.42"/>
+<text x="920" y="353" text-anchor="middle" font-size="12" font-weight="700" fill="#444">x</text>
+<text x="920" y="372" text-anchor="middle" font-size="11.4" font-style="italic" fill="#1b5e20">17 BIOCLIM</text>
+<line x1="940" y1="263" x2="975" y2="263" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+<g id="rf-box-full"><rect x="982" y="215" width="144" height="96" rx="7" fill="url(#rfGrad)" stroke="#1e88e5" stroke-width="1.8"/></g>
+<g id="rf-glyph-full" stroke-linecap="round" stroke-linejoin="round">
+  <g id="rf-tree-full-1">
+    <g stroke="#7b8790" stroke-width="1.3" fill="none">
+      <path d="M1008 230 L998 243 M1008 230 L1018 243 M998 243 L993 257 M998 243 L1003 257 M1018 243 L1013 257 M1018 243 L1023 257"/>
+    </g>
+    <g fill="#fff" stroke="#1e88e5" stroke-width="1.2">
+      <circle cx="1008" cy="230" r="2.5"/><circle cx="998" cy="243" r="2.1"/><circle cx="1018" cy="243" r="2.1"/>
+    </g>
+    <g fill="#8ec5f4" stroke="#1e88e5" stroke-width="0.85">
+      <rect x="990.5" y="255" width="5" height="5" rx="1"/><rect x="1000.5" y="255" width="5" height="5" rx="1"/>
+      <rect x="1010.5" y="255" width="5" height="5" rx="1"/><rect x="1020.5" y="255" width="5" height="5" rx="1"/>
+    </g>
+  </g>
+  <g id="rf-tree-full-2">
+    <g stroke="#7b8790" stroke-width="1.3" fill="none">
+      <path d="M1054 226 L1042 239 M1054 226 L1066 239 M1042 239 L1036 252 M1042 239 L1048 252 M1066 239 L1060 252 M1066 239 L1072 252 M1036 252 L1033 266 M1036 252 L1039 266 M1060 252 L1057 266 M1060 252 L1063 266"/>
+    </g>
+    <g fill="#fff" stroke="#1e88e5" stroke-width="1.2">
+      <circle cx="1054" cy="226" r="2.6"/><circle cx="1042" cy="239" r="2.1"/><circle cx="1066" cy="239" r="2.1"/>
+      <circle cx="1036" cy="252" r="1.9"/><circle cx="1060" cy="252" r="1.9"/>
+    </g>
+    <g fill="#8ec5f4" stroke="#1e88e5" stroke-width="0.85">
+      <rect x="1030.5" y="264" width="5" height="5" rx="1"/><rect x="1036.5" y="264" width="5" height="5" rx="1"/>
+      <rect x="1045.5" y="250" width="5" height="5" rx="1"/><rect x="1069.5" y="250" width="5" height="5" rx="1"/>
+      <rect x="1054.5" y="264" width="5" height="5" rx="1"/><rect x="1060.5" y="264" width="5" height="5" rx="1"/>
+    </g>
+  </g>
+  <g id="rf-tree-full-3">
+    <g stroke="#7b8790" stroke-width="1.3" fill="none">
+      <path d="M1100 230 L1090 243 M1100 230 L1110 243 M1090 243 L1085 257 M1090 243 L1095 257 M1110 243 L1105 257 M1110 243 L1115 257"/>
+    </g>
+    <g fill="#fff" stroke="#1e88e5" stroke-width="1.2">
+      <circle cx="1100" cy="230" r="2.5"/><circle cx="1090" cy="243" r="2.1"/><circle cx="1110" cy="243" r="2.1"/>
+    </g>
+    <g fill="#8ec5f4" stroke="#1e88e5" stroke-width="0.85">
+      <rect x="1082.5" y="255" width="5" height="5" rx="1"/><rect x="1092.5" y="255" width="5" height="5" rx="1"/>
+      <rect x="1102.5" y="255" width="5" height="5" rx="1"/><rect x="1112.5" y="255" width="5" height="5" rx="1"/>
+    </g>
+  </g>
+</g>
+<text x="1054.0" y="299" text-anchor="middle" font-size="11.2" font-weight="700" fill="#444">Random Forest</text>
+<line x1="1133" y1="263" x2="1167" y2="263" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+<g><rect x="1174" y="202" width="28" height="122" rx="4" fill="url(#probGrad)" stroke="#fb8c00" stroke-width="2"/></g>
+<line x1="1174" y1="213.09" x2="1202" y2="213.09" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="224.18" x2="1202" y2="224.18" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="235.27" x2="1202" y2="235.27" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="246.36" x2="1202" y2="246.36" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="257.45" x2="1202" y2="257.45" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="268.55" x2="1202" y2="268.55" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="279.64" x2="1202" y2="279.64" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="290.73" x2="1202" y2="290.73" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="301.82" x2="1202" y2="301.82" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<line x1="1174" y1="312.91" x2="1202" y2="312.91" stroke="#fb8c00" stroke-width="0.55" opacity="0.42"/>
+<text x="1188" y="346" text-anchor="middle" font-size="12" font-weight="700" font-style="italic" fill="#444">p</text>
+<path d="M1184.5 337.5 L1188 334.5 L1191.5 337.5" fill="none" stroke="#444" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1188" y="363" text-anchor="middle" font-size="11.2" fill="#666">11 classes</text>
+</g>
+</svg>

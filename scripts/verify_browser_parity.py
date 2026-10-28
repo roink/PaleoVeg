@@ -1,4 +1,4 @@
-"""Compare native and Pyodide predictions for a fixed reference observation.
+"""Compare native and Pyodide predictions for a reference observation and 64 synthetic climates.
 
 Run this after placing model.pkl.bz2 in docs/assets. Selenium requires a local
 Chrome/Chromium installation. The script serves docs/ on an ephemeral port and
@@ -17,6 +17,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from paleoveg import CLASS_NAMES, load_model, predict
+from paleoveg.predictor import BIOCLIM_RANGES
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,10 +42,19 @@ class QuietHandler(SimpleHTTPRequestHandler):
 def main():
     if not MODEL_PATH.exists():
         raise SystemExit(
-            "Missing docs/assets/model.pkl.bz2; download the v0.1.2 release asset first."
+            "Missing docs/assets/model.pkl.bz2; run scripts/download_release_model.py first."
         )
 
     source = pd.DataFrame([INPUT_VALUES], columns=INPUT_COLUMNS)
+    rng = np.random.default_rng(42)
+    samples = pd.DataFrame({
+        name: rng.uniform(lower, upper, 64)
+        for name, (lower, upper) in BIOCLIM_RANGES.items()
+    })
+    samples = samples.rename(columns={"bio1": "Bio01", "bio4": "bio04"})
+    samples["latitude"] = 0
+    samples["longitude"] = 0
+    source = pd.concat([source, samples[INPUT_COLUMNS]], ignore_index=True)
     scenarios = [
         {"correction": False, "co2_ppm": None, "age_ka_bp": None},
         {"correction": True, "co2_ppm": None, "age_ka_bp": None},
@@ -126,6 +136,7 @@ def main():
     payload = json.loads(browser_result)
     if "error" in payload:
         raise RuntimeError(payload["error"])
+    assert len(payload["csvResults"]) == len(native), "Missing browser scenarios"
     for expected, csv_result in zip(native, payload["csvResults"]):
         browser = pd.read_csv(io.StringIO(csv_result))[CLASS_NAMES]
         np.testing.assert_allclose(expected, browser, rtol=1e-12, atol=1e-12)

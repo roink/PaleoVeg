@@ -1,3 +1,12 @@
 include LICENSE
 include CITATION.cff
 recursive-include paleoveg/data/co2 *.csv *.md
+include paleoveg/model_metadata.json
+include training/*.py
+include training/*.sh
+include training/*.md
+include scripts/prepare_release.py
+include scripts/download_release_model.py
+include scripts/prepare_publication_assets.py
+include RELEASE.md
+include CHANGELOG.md

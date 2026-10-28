@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Synchronize PaleoVeg release metadata before creating a version tag.
 
-Run ``python scripts/prepare_release.py 0.2.1 --build-browser-wheel`` before
+Run ``python scripts/prepare_release.py 1.0.0 --build-browser-wheel`` before
 committing a release. The resulting commit is the source that must be tagged.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -21,7 +22,7 @@ WHEEL_TEMPLATE = "paleoveg-{version}-py3-none-any.whl"
 def normalized_version(value: str) -> str:
     version = value.removeprefix("v")
     if not re.fullmatch(r"\d+\.\d+\.\d+(?:[a-zA-Z0-9.+-]+)?", version):
-        raise ValueError("Version must look like 0.2.1 or v0.2.1.")
+        raise ValueError("Version must look like 1.0.0 or v1.0.0.")
     return version
 
 
@@ -59,7 +60,7 @@ def synchronize(version: str) -> list[Path]:
         (ROOT / "docs" / "pyodide-worker.mjs", r'(?<=WHEEL_NAME = ")[^"]+(?=")', wheel_name, 1),
         (ROOT / "docs" / "pyodide-worker.mjs", r'(?<=paleoveg_version", "char", ")[^"]+(?=")', version, 1),
         (ROOT / "docs" / "pyodide-worker.mjs", r'(?<=paleoveg_version: ")[^"]+(?=")', version, 1),
-        (ROOT / "docs" / "cache-manifest.js", r'(?<=assets/)PaleoVeg-[^"/]+(?=")', wheel_name, 1),
+        (ROOT / "docs" / "cache-manifest.js", r'(?<=assets/)paleoveg-[^"/]+(?=")', wheel_name, 1),
         (ROOT / ".gitignore", r'(?<=!docs/assets/)[^\n]+', wheel_name, 1),
     ]
     changed = []
@@ -83,7 +84,10 @@ def check(version: str) -> list[str]:
         ROOT / "docs" / "cache-manifest.js": [f"assets/{wheel_name}"],
         ROOT / ".gitignore": [f"!docs/assets/{wheel_name}"],
     }
+    metadata = json.loads((ROOT / "paleoveg/model_metadata.json").read_text())
     missing = []
+    if metadata["version"] != f"v{version}":
+        missing.append("paleoveg/model_metadata.json: classifier release version")
     for path, values in expectations.items():
         content = path.read_text(encoding="utf-8")
         missing.extend(f"{path.relative_to(ROOT)}: {value}" for value in values if value not in content)
@@ -108,7 +112,7 @@ def main() -> None:
     changed = synchronize(version)
     if args.build_browser_wheel:
         subprocess.run(
-            [sys.executable, "setup.py", "bdist_wheel", "--dist-dir", "docs/assets"],
+            [sys.executable, "-m", "build", "--wheel", "--outdir", "docs/assets"],
             cwd=ROOT,
             check=True,
         )

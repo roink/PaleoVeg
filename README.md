@@ -7,6 +7,11 @@
 
 PaleoVeg is a Python package for predicting vegetation types based on bioclimatic variables. It is designed for paleovegetation reconstruction, allowing users to model vegetation based on past climate data or other environmental predictors.
 
+Release preparation, classifier checksums, and persistent archiving are described
+in [RELEASE.md](RELEASE.md). Version 1.0.0 uses a newly trained all-data classifier;
+its predictions differ from the classifier used by v0.2.0. Native model loading
+uses scikit-learn 1.9.0 and requires Python 3.11 or later.
+
 ## **Features**
 - Predict vegetation types for single or multiple locations using bioclimatic variables.
 - Apply a CO₂ concentration-dependent C3/C4 competition correction.
@@ -50,6 +55,19 @@ PaleoVeg predicts the following vegetation/biome types:
    ```bash
    pip install .
    ```
+
+The default installation contains the dependencies needed to download the
+released model and make predictions. Install the optional dependencies when
+reproducing the published analyses or testing the browser application:
+
+```bash
+pip install -e '.[reproduction,test]'  # Model training and paper reproduction
+pip install -e '.[browser-test]'       # Browser/Python prediction parity
+```
+
+The reproduction workflow also uses CDO, curl, unzip, and `sha256sum`. See
+[`training/README.md`](training/README.md) for required input data, the complete
+workflow, and the software versions recorded for the published analyses.
 
 ## **Browser application**
 
@@ -251,7 +269,7 @@ and attribution details.
 
 If you use PaleoVeg in research, please cite:
 
-> Schlüter, P. (2025). *PaleoVeg* (v0.2.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222520
+> Schlüter, P. (2026). *PaleoVeg* (v1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222519
 
 Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff).
 PaleoVeg can be reused under the terms of the [MIT License](LICENSE).

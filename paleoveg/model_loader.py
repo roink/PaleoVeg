@@ -8,6 +8,7 @@ before passing its bytes to :func:`load_model`.
 import bz2
 import hashlib
 import io
+import json
 import os
 import pickle
 from contextlib import contextmanager
@@ -17,9 +18,10 @@ from typing import BinaryIO, Callable, Iterator, Optional, Union
 from sklearn.ensemble import RandomForestClassifier
 
 
-MODEL_FILENAME = "model.pkl.bz2"
-MODEL_VERSION = "v0.1.2"
-MODEL_SHA256 = "7ad80d07f91c2c0c51b1cad9f423056d24daf07ea70b7ab04ba4502d38d1fab6"
+_metadata = json.loads(Path(__file__).with_name("model_metadata.json").read_text())
+MODEL_FILENAME = _metadata["filename"]
+MODEL_VERSION = _metadata["version"]
+MODEL_SHA256 = _metadata["sha256"]
 MODEL_URL = (
     "https://github.com/roink/PaleoVeg/releases/download/"
     f"{MODEL_VERSION}/{MODEL_FILENAME}"
@@ -31,8 +33,8 @@ _cached_model = None
 
 
 def default_model_path() -> Path:
-    """Return the package-local path used by native Python installations."""
-    return Path(__file__).with_name(MODEL_FILENAME)
+    """Keep each released classifier in its own package-local cache file."""
+    return Path(__file__).with_name(f"model-{MODEL_VERSION}.pkl.bz2")
 
 
 def download_model(model_path: Optional[Union[str, os.PathLike]] = None) -> Path:

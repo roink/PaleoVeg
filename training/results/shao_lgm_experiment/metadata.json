@@ -1,0 +1,14 @@
+{
+  "models": [
+    "CNRM-CM5",
+    "FGOALS-g2",
+    "IPSL-CM5A-LR",
+    "MIROC-ESM",
+    "MPI-ESM-P",
+    "MRI-CGCM3"
+  ],
+  "co2_ppm": 185,
+  "grid": "1 degree",
+  "land_cells": 62594,
+  "method": "monthly fields interpolated to 1 degree, ensemble averaged, then converted to BIOCLIM"
+}

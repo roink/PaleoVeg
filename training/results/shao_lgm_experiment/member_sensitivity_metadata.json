@@ -1,0 +1,11 @@
+{
+  "models": [
+    "CNRM-CM5",
+    "FGOALS-g2",
+    "IPSL-CM5A-LR",
+    "MIROC-ESM",
+    "MPI-ESM-P",
+    "MRI-CGCM3"
+  ],
+  "comparison": "mean member area fractions versus prediction from ensemble-mean climate"
+}

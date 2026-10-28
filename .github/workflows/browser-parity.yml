@@ -20,15 +20,8 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install . pytest selenium
+      - run: pip install '.[browser-test]'
       - run: pytest -q
-      - name: Download released classifier
-        run: >-
-          curl --fail --location --retry 3
-          --output docs/assets/model.pkl.bz2
-          https://github.com/roink/PaleoVeg/releases/download/v0.1.2/model.pkl.bz2
-      - name: Verify classifier checksum
-        run: >-
-          echo "7ad80d07f91c2c0c51b1cad9f423056d24daf07ea70b7ab04ba4502d38d1fab6  docs/assets/model.pkl.bz2"
-          | sha256sum --check
+      - name: Download and verify the release classifier
+        run: python scripts/download_release_model.py
       - run: python scripts/verify_browser_parity.py

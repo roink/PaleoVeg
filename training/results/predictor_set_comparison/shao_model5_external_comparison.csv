@@ -1,0 +1,25 @@
+class,class_name,shao_2018_model_5_score,configuration,shao_goodness_score
+1,Evergreen needleleaf forest,0.52,shao_like_bio1_bio12,0.6491953130002164
+1,Evergreen needleleaf forest,0.52,full_bioclim,0.7569930521624954
+2,Evergreen broadleaf forest,0.77,shao_like_bio1_bio12,0.7993693638769119
+2,Evergreen broadleaf forest,0.77,full_bioclim,0.8670792344010423
+3,Deciduous needleleaf forest,0.41,shao_like_bio1_bio12,0.6733086223583955
+3,Deciduous needleleaf forest,0.41,full_bioclim,0.8297563253886422
+4,Deciduous broadleaf forest,0.17,shao_like_bio1_bio12,0.508172041008417
+4,Deciduous broadleaf forest,0.17,full_bioclim,0.5630510546599476
+5,Mixed forest,0.34,shao_like_bio1_bio12,0.609431273110088
+5,Mixed forest,0.34,full_bioclim,0.7271343330351068
+6,Woodland,0.48,shao_like_bio1_bio12,0.6306476320306216
+6,Woodland,0.48,full_bioclim,0.7581190690888344
+7,Wooded grassland,0.48,shao_like_bio1_bio12,0.6296182403204353
+7,Wooded grassland,0.48,full_bioclim,0.7346450748880318
+8,Closed shrubland,0.29,shao_like_bio1_bio12,0.6003418601721575
+8,Closed shrubland,0.29,full_bioclim,0.6792415281120694
+9,Open shrubland,0.5,shao_like_bio1_bio12,0.7119219652446351
+9,Open shrubland,0.5,full_bioclim,0.8032437279239157
+10,Grassland,0.53,shao_like_bio1_bio12,0.6175895631779758
+10,Grassland,0.53,full_bioclim,0.7379939522839987
+12,Bare ground,0.97,shao_like_bio1_bio12,0.9336498298161058
+12,Bare ground,0.97,full_bioclim,0.9739161648225945
+ensemble_mean,Ensemble mean,0.51,shao_like_bio1_bio12,0.669385973101451
+ensemble_mean,Ensemble mean,0.51,full_bioclim,0.7664703197060617

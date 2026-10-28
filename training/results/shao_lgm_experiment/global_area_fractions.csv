@@ -1,0 +1,56 @@
+configuration,class,area_weighted_fraction
+modern_avhrr,Evergreen Needleleaf Forest,0.08846576808506115
+modern_avhrr,Evergreen Broadleaf Forest,0.11725301395422956
+modern_avhrr,Deciduous Needleleaf Forest,0.01884460532216003
+modern_avhrr,Deciduous Broadleaf Forest,0.03386879560477441
+modern_avhrr,Mixed Forest,0.03882489278803153
+modern_avhrr,Woodland,0.12981870998947137
+modern_avhrr,Wooded Grassland,0.07684101286243562
+modern_avhrr,Closed Shrubland,0.03954038339770404
+modern_avhrr,Open Shrubland,0.09508406914010728
+modern_avhrr,Grassland,0.11867081210745727
+modern_avhrr,Bare Ground,0.2427879367485676
+shao_no_co2,Evergreen Needleleaf Forest,0.10758373040867145
+shao_no_co2,Evergreen Broadleaf Forest,0.11343026173926667
+shao_no_co2,Deciduous Needleleaf Forest,0.014892560285921001
+shao_no_co2,Deciduous Broadleaf Forest,0.04798987120674303
+shao_no_co2,Mixed Forest,0.06226352015221751
+shao_no_co2,Woodland,0.20198542305152833
+shao_no_co2,Wooded Grassland,0.07869287617729648
+shao_no_co2,Closed Shrubland,0.03050883654351754
+shao_no_co2,Open Shrubland,0.06953583109858506
+shao_no_co2,Grassland,0.10220083366710646
+shao_no_co2,Bare Ground,0.17092487063439746
+shao_185ppm,Evergreen Needleleaf Forest,0.033918041958626105
+shao_185ppm,Evergreen Broadleaf Forest,0.08174693643215729
+shao_185ppm,Deciduous Needleleaf Forest,0.003211877474042526
+shao_185ppm,Deciduous Broadleaf Forest,0.03571056442961711
+shao_185ppm,Mixed Forest,0.07033923933272485
+shao_185ppm,Woodland,0.2604668493177488
+shao_185ppm,Wooded Grassland,0.09167599406835673
+shao_185ppm,Closed Shrubland,0.03542055572082894
+shao_185ppm,Open Shrubland,0.07698142362261076
+shao_185ppm,Grassland,0.14345331307102302
+shao_185ppm,Bare Ground,0.16708614861650994
+paleoveg_no_co2,Evergreen Needleleaf Forest,0.05516100532908501
+paleoveg_no_co2,Evergreen Broadleaf Forest,0.19613312336491398
+paleoveg_no_co2,Deciduous Needleleaf Forest,0.007059305517151306
+paleoveg_no_co2,Deciduous Broadleaf Forest,0.04435469968104434
+paleoveg_no_co2,Mixed Forest,0.01807139749411225
+paleoveg_no_co2,Woodland,0.21697063197966548
+paleoveg_no_co2,Wooded Grassland,0.043919099966716585
+paleoveg_no_co2,Closed Shrubland,0.02737670703510456
+paleoveg_no_co2,Open Shrubland,0.04738058927708565
+paleoveg_no_co2,Grassland,0.14162611708283526
+paleoveg_no_co2,Bare Ground,0.20194732327228546
+paleoveg_185ppm,Evergreen Needleleaf Forest,0.016026247506141535
+paleoveg_185ppm,Evergreen Broadleaf Forest,0.13847227291226682
+paleoveg_185ppm,Deciduous Needleleaf Forest,0.0014049984563332387
+paleoveg_185ppm,Deciduous Broadleaf Forest,0.030871902348831158
+paleoveg_185ppm,Mixed Forest,0.01927861119979099
+paleoveg_185ppm,Woodland,0.28415015039354913
+paleoveg_185ppm,Wooded Grassland,0.05256985157408114
+paleoveg_185ppm,Closed Shrubland,0.031020563240413464
+paleoveg_185ppm,Open Shrubland,0.05299998638590821
+paleoveg_185ppm,Grassland,0.1816166992975559
+paleoveg_185ppm,Bare Ground,0.19158871668512834

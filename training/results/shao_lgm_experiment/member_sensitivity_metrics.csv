@@ -1,0 +1,4 @@
+state,mean_absolute_difference_percentage_points,maximum_absolute_difference_percentage_points,matching_class_response_directions
+no_co2,0.44856488605687056,1.192151461840417,
+185ppm,0.4563730305948788,1.3755495606270485,
+co2_direction,,,11.0

@@ -1,0 +1,12 @@
+variable,sample_mean,sample_variance,practical_range_km,range_basis
+residual_ENF,-0.004881774005810258,0.03193392873940082,300.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_EBF,-0.00769074507314202,0.024191005035526972,400.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_DNF,-0.0026967729329158705,0.009419471846081162,100.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_DBF,0.0021123681259260407,0.020114851646062946,150.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_MF,0.002962283691337666,0.015747921235312445,300.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_WL,-0.0011834343595605247,0.04739547319064313,500.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_WGL,0.0032315526832424335,0.016420818186455983,300.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_CSL,0.002164333968895381,0.011412390008806112,300.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_OSL,0.0024323763810120305,0.02054719813023309,500.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_GL,0.013679887936623092,0.034938018512024105,200.0,first distance class after which |correlation| remains <=0.05 through 1000 km
+residual_BG,-0.010130076415607979,0.014750955387295681,500.0,first distance class after which |correlation| remains <=0.05 through 1000 km

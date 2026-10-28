@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing version tag to publish (for example, v0.2.0)
+        description: Existing version tag to publish (for example, v1.0.0)
         required: true
         type: string
 
@@ -28,15 +28,35 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install build and test dependencies
-        run: python -m pip install --upgrade pip build twine pytest
-      - name: Verify the tag matches the package version
+        run: python -m pip install --upgrade pip build twine
+      - name: Verify synchronized release metadata
+        run: python scripts/prepare_release.py "$RELEASE_TAG" --check
+      - name: Retrieve classifier from the prepared draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download "$RELEASE_TAG" --pattern model.pkl.bz2 --pattern release-manifest.json --pattern SHA256SUMS --dir release-assets
+      - name: Verify classifier and source commit
         run: |
-          package_version=$(python -c 'import re; print(re.search(r"version=[\"\\\x27]([^\"\\\x27]+)", open("setup.py", encoding="utf-8").read()).group(1))')
-          test "v${package_version}" = "${RELEASE_TAG}"
-      - name: Run tests
+          python scripts/download_release_model.py --output release-assets/model.pkl.bz2 --verify-only
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          manifest = json.loads(Path("release-assets/release-manifest.json").read_text())
+          commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
+          assert manifest["source_commit"] == commit, "Release assets belong to a different source commit"
+          PY
+      - name: Run tests and load the release classifier
         run: |
-          python -m pip install .
+          python -m pip install '.[test]'
           pytest -q
+          python - <<'PY'
+          from paleoveg import load_model
+          from paleoveg.input import REQUIRED_COLUMNS
+          from paleoveg.predictor import MODEL_CLASS_CODES
+          model = load_model("release-assets/model.pkl.bz2")
+          assert list(model.classes_) == MODEL_CLASS_CODES
+          assert list(model.feature_names_in_) == REQUIRED_COLUMNS
+          PY
       - name: Build distributions
         run: python -m build
       - name: Validate distributions
@@ -63,21 +83,20 @@ jobs:
           path: dist/
       - uses: pypa/gh-action-pypi-publish@release/v1
 
-  create-github-release:
-    name: Create GitHub release
+  complete-github-draft:
+    name: Attach distributions to the prepared release
     needs: publish-to-pypi
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.tag || github.ref_name }}
       - uses: actions/download-artifact@v4
         with:
           name: python-distributions
           path: dist/
-      - name: Create release with Python distributions
+      - name: Upload distributions
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$RELEASE_TAG" dist/* --title "PaleoVeg $RELEASE_TAG" --generate-notes
+        run: gh release upload "$RELEASE_TAG" dist/* --repo "$GITHUB_REPOSITORY"
+      # Publish the completed draft in GitHub after checking Zenodo connectivity.
+      # Keeping it as a draft prevents Zenodo ingesting an incomplete release.

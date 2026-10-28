@@ -62,7 +62,7 @@ const elements = {
 
 const stepButtons = [...document.querySelectorAll("[data-step]")];
 
-const worker = new Worker("pyodide-worker.mjs?v=runtime-cache-5", { type: "module" });
+const worker = new Worker("pyodide-worker.mjs?v=runtime-cache-6", { type: "module" });
 const pending = new Map();
 let requestId = 0;
 let selectedFile = null;
@@ -818,14 +818,14 @@ elements.ageKaBp.addEventListener("input", updateCo2Control);
 document.querySelectorAll('input[name="co2-source"]').forEach(input => input.addEventListener("change", updateCo2Control));
 document.querySelector("#copy-bibtex").addEventListener("click", async event => {
   const button = event.currentTarget;
-  const bibtex = `@software{schlueter_2025_paleoveg,
+  const bibtex = `@software{schlueter_2026_paleoveg,
   author    = {Schlüter, Philipp},
   title     = {PaleoVeg},
-  version   = {0.2.0},
-  year      = {2025},
+  version   = {1.0.0},
+  year      = {2026},
   publisher = {Zenodo},
-  doi       = {10.5281/zenodo.15222520},
-  url       = {https://doi.org/10.5281/zenodo.15222520}
+  doi       = {10.5281/zenodo.15222519},
+  url       = {https://doi.org/10.5281/zenodo.15222519}
 }`;
   await navigator.clipboard.writeText(bibtex);
   button.textContent = "Copied";

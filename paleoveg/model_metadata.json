@@ -1,0 +1,41 @@
+{
+  "version": "v1.0.0",
+  "filename": "model.pkl.bz2",
+  "sha256": "080fc26c53133034840e76d38eab2e2ef2444d7352766337d01f5cb60514abd5",
+  "size_bytes": 185514782,
+  "scikit_learn": "1.9.0",
+  "training_rows": 2823308,
+  "classes": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12
+  ],
+  "features": [
+    "bio1",
+    "bio4",
+    "bio5",
+    "bio6",
+    "bio7",
+    "bio8",
+    "bio9",
+    "bio10",
+    "bio11",
+    "bio12",
+    "bio13",
+    "bio14",
+    "bio15",
+    "bio16",
+    "bio17",
+    "bio18",
+    "bio19"
+  ],
+  "training_metadata": "training/results/spatial_validation_v1/run_metadata.json"
+}

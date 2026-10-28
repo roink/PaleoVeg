@@ -1,0 +1,33 @@
+name: Tests and packaging
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install '.[test]' build twine
+      - run: pytest -q
+      - run: python scripts/prepare_release.py "$(python -c 'import paleoveg; print(paleoveg.__version__)')" --check
+      - run: python -m build
+      - run: python -m twine check dist/*
+      - name: Test the unpacked source distribution
+        run: |
+          mkdir /tmp/paleoveg-sdist
+          tar -xzf dist/*.tar.gz -C /tmp/paleoveg-sdist
+          cd /tmp/paleoveg-sdist/paleoveg-*
+          pytest -q

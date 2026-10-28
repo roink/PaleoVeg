@@ -14,17 +14,42 @@ dist/
 build/
 *.whl
 !docs/assets/
-!docs/assets/paleoveg-0.2.0-py3-none-any.whl
+!docs/assets/paleoveg-1.0.0-py3-none-any.whl
 
 # Logs and temporary files
 *.log
+*.aux
+*.bbl
+*.blg
+*.out
 *.tmp
 *.~*
 .DS_Store
 
 # Model files
 paleoveg/model.pkl.bz2
+paleoveg/model-*.pkl.bz2
 docs/assets/model.pkl.bz2
+
+# Reproducible training inputs and generated results
+training/data/raw/*
+training/data/processed/*
+training/models/*
+training/logs/*
+training/data/shao_lgm/*.nc
+training/data/pmip3_lgm/*.nc
+training/data/pmip3_lgm/esgf_download/
+!training/data/raw/README.md
+!training/data/processed/README.md
+!training/models/README.md
+!training/logs/README.md
+!training/data/shao_lgm/README.md
+!training/data/pmip3_lgm/README.md
+training/results/**/*.parquet
+training/results/shao_lgm_experiment/climate/*.nc
+
+references/
+documentation/
 
 # Test coverage reports
 .coverage
@@ -36,3 +61,6 @@ htmlcov/
 
 # System files
 Thumbs.db
+
+# Derived vegetation maps are preserved in release assets, not Git.
+training/results/shao_lgm_experiment/paleoveg_*.nc

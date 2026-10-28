@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software in your work, please cite it as below."
 title: "PaleoVeg"
-version: "v0.2.0"
-doi: "10.5281/zenodo.15222520"
+version: "v1.0.0"
+doi: "10.5281/zenodo.15222519"
 authors:
   - family-names: "Schlüter"
     given-names: "Philipp"
@@ -15,4 +15,4 @@ keywords:
   - bioclimatic prediction
   - Python
 license: "MIT"
-date-released: "2025-04-15"
+date-released: "2026-10-28"

@@ -1,0 +1,9 @@
+{
+  "accuracy": 0.5072858384485849,
+  "balanced_accuracy": 0.09090909090909091,
+  "macro_f1": 0.06119196933726105,
+  "majority_class": 12,
+  "multiclass_log_loss": 17.759218458868673,
+  "n": 294544,
+  "weighted_f1": 0.3414600141872983
+}

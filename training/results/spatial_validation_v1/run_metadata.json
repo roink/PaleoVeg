@@ -1,0 +1,44 @@
+{
+  "data": {
+    "path": "training/data/processed/paleoveg_training.parquet",
+    "rows": 2823308,
+    "sha256": "dde1519c868b99563db040a7f3d9e19c9e6ace9bc6c44fba3ed8f70e680b76c6"
+  },
+  "model": {
+    "artifact": "training/models/spatial_validation_v1/model.pkl.bz2",
+    "classes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      12
+    ],
+    "parameters": {
+      "max_depth": 20,
+      "n_jobs": -1,
+      "random_state": 42
+    },
+    "sha256": "080fc26c53133034840e76d38eab2e2ef2444d7352766337d01f5cb60514abd5",
+    "type": "sklearn.ensemble.RandomForestClassifier"
+  },
+  "smoke_test_max_rows": null,
+  "software": {
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "python": "3.13.3",
+    "scikit_learn": "1.9.0"
+  },
+  "validation": {
+    "external_fraction": 0.1,
+    "external_tile_count": 132,
+    "folds": 5,
+    "outer_tile_degrees": 5,
+    "seed": 42
+  }
+}
