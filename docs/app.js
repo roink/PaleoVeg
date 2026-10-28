@@ -824,8 +824,8 @@ document.querySelector("#copy-bibtex").addEventListener("click", async event => 
   version   = {1.0.0},
   year      = {2026},
   publisher = {Zenodo},
-  doi       = {10.5281/zenodo.15222519},
-  url       = {https://doi.org/10.5281/zenodo.15222519}
+  doi       = {10.5281/zenodo.23743715},
+  url       = {https://doi.org/10.5281/zenodo.23743715}
 }`;
   await navigator.clipboard.writeText(bibtex);
   button.textContent = "Copied";

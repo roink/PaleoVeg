@@ -27,9 +27,7 @@ python -m build
 python -m twine check dist/*.whl dist/*.tar.gz
 ```
 
-Confirm the release date in `CITATION.cff` when publishing. Citations currently
-use the existing concept DOI, which identifies the software's version series;
-replace it with the new version DOI after successful Zenodo deposition.
+Confirm the release date in `CITATION.cff` when publishing. Citations use the version-specific DOI after successful Zenodo deposition.
 
 ## Publication artifacts
 
@@ -78,16 +76,17 @@ vegetation reconstructions. Input access and restrictions are documented in
    supports manual dispatch; it no longer deploys unreleased source on main pushes.
    A release published using the GitHub UI emits the event needed for this workflow.
 
-## Zenodo status checked during preparation
+## Verified Zenodo releases
 
-The repository has an active Zenodo webhook subscribed to release events, but
-a test ping on 2026-10-28 received HTTP 202 from Zenodo. No recent release
-deliveries were available. The
-concept DOI `10.5281/zenodo.15222519` still resolves to v0.1.2, although v0.2.0 is
-published on GitHub. Automatic archiving therefore needs confirmation in the
-owner's Zenodo account under GitHub → PaleoVeg. Check the repository connection
-and any failed-release errors. Do not infer that a new DOI exists from the
-GitHub release alone.
+After renewing GitHub authorization and recreating the repository webhook,
+Zenodo automatically archived both new release events:
+
+- v0.2.1: https://doi.org/10.5281/zenodo.23743567
+- v1.0.0: https://doi.org/10.5281/zenodo.23743715
+
+Both belong to the existing concept DOI, `10.5281/zenodo.15222519`.
+The Zenodo records contain tagged source snapshots; GitHub release assets
+are not included in those records.
 
 Sources:
 - https://help.zenodo.org/docs/github/archive-software/github-upload/

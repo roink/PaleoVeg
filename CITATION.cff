@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software in your work, please cite it as below."
 title: "PaleoVeg"
 version: "v1.0.0"
-doi: "10.5281/zenodo.15222519"
+doi: "10.5281/zenodo.23743715"
 authors:
   - family-names: "Schlüter"
     given-names: "Philipp"

@@ -269,7 +269,7 @@ and attribution details.
 
 If you use PaleoVeg in research, please cite:
 
-> Schlüter, P. (2026). *PaleoVeg* (v1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.15222519
+> Schlüter, P. (2026). *PaleoVeg* (v1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.23743715
 
 Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff).
 PaleoVeg can be reused under the terms of the [MIT License](LICENSE).
