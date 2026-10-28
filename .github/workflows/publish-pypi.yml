@@ -19,6 +19,9 @@ env:
 jobs:
   build:
     name: Test and build
+    # GitHub requires push permission to access unpublished release assets.
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
