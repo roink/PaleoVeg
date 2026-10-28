@@ -16,6 +16,8 @@ concurrency:
 
 jobs:
   deploy:
+    # Legacy maintenance releases must not deploy the unreleased 1.0 browser.
+    if: github.event_name != 'release' || !startsWith(github.event.release.tag_name, 'v0.')
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
